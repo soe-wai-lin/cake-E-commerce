@@ -4,7 +4,7 @@ const auth = require('../config/auth');
 const fs = require('fs');
 const Category = require('../models/categoryModel');
 const Product = require('../models/productModel');
-const { check, validationResult } = require('express-validator');
+// const { check, validationResult } = require('express-validator');
 
 const multer = require('multer');
 const storage = multer.diskStorage({

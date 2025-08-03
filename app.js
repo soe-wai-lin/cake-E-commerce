@@ -26,7 +26,7 @@ const orderStatusRouter = require("./routes/order-status-router");
 
 mongoose
   .connect(config.database)
-  .then(() => {
+  .then(() => { 
     console.log("Database Connected");
   })
   .catch((err) => {
