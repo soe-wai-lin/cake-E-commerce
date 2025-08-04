@@ -63,7 +63,11 @@
             TARGET_REPO_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
 
           run: |
-           chmod +x ./update-manifest.sh
-           ./update-manifest.sh
-
+           git clone https://soe-wai-lin:${TARGET_REPO_TOKEN}@github.com:soe-wai-lin/argo-e-commerce.git
+           cd argo-e-commerce
+           sed -i 's/image: cake-e-commerce:.*/image: cake-e-commerce:v1.0.16/' deployment.yaml
+           cat deployment.yaml
+           git add .
+           git commit -m "Update deployment manifest via GitHub Action"
+           git push origin main
       
