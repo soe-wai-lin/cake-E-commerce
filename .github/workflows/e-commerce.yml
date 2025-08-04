@@ -17,6 +17,13 @@
         - name: Checkout Repository
           uses: actions/checkout@v4
 
+        - name: Run Trivy vulnerability scanner in fs mode
+          uses: aquasecurity/trivy-action@0.28.0
+          with:
+            scan-type: 'fs'
+            scan-ref: '.'
+            trivy-config: trivy.yaml
+
         - name: Cache NPM dependencies
           uses: actions/cache@v4
           with:
@@ -47,37 +54,47 @@
             push: true
             tags: ${{ vars.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             context: .
+
+        - name: Run Trivy vulnerability scanner
+          uses: aquasecurity/trivy-action@0.28.0
+          with:
+            image-ref: 'docker.io/$(( var.IMAGE_NAME)):${{ env.IMAGE_TAG }}'
+            format: 'table'
+            exit-code: '1'
+            ignore-unfixed: true
+            vuln-type: 'os,library'
+            severity: 'CRITICAL,HIGH'
             
       
-    k8s:
-      name: k8s-image-update
-      needs: docker
-      runs-on: ubuntu-latest
-      steps:
-        - name: checkout repo
-          uses: actions/checkout@v4.2.2 
+    # k8s:
+    #   name: k8s-image-update
+    #   needs: docker
+    #   runs-on: ubuntu-latest
+    #   steps:
+    #     - name: checkout repo
+    #       uses: actions/checkout@v4.2.2 
 
-        - name: Set up Git
-          run: |
-            git config --global user.name "github-ubuntu"
-            git config --global user.email "swl@gmail.com"
+    #     - name: Set up Git
+    #       run: |
+    #         git config --global user.name "github-ubuntu"
+    #         git config --global user.email "swl@gmail.com"
 
-        - name: Run manifest update script
-          env:
-            TARGET_REPO_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
+    #     - name: Run manifest update script
+    #       env:
+    #         TARGET_REPO_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
 
-          run: |
-           git clone https://soewailin:${TARGET_REPO_TOKEN}@github.com/soe-wai-lin/argo-e-commerce.git
+    #       run: |
+    #        git clone https://soewailin:${TARGET_REPO_TOKEN}@github.com/soe-wai-lin/argo-e-commerce.git
 
-           cd argo-e-commerce
+    #        cd argo-e-commerce
 
-           sed -i 's/cake-e-commerce:.*/cake-e-commerce:v1.1/g' deployment.yaml
+    #        sed -i 's/cake-e-commerce:.*/cake-e-commerce:v1.1/g' deployment.yaml
 
-           cat deployment.yaml
+    #        cat deployment.yaml
 
-           git add .
+    #        git add .
 
-           git commit -m "Update deployment manifest via GitHub Action"
+    #        git commit -m "Update deployment manifest via GitHub Action"
 
-           git push origin main 
+    #        git push origin main 
       
