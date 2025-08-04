@@ -4,6 +4,9 @@
     push:
       branches:
         - main
+  env:
+    IMAGE_TAG: "v1.0"
+
 
   jobs:
     unit-testing:
@@ -42,7 +45,7 @@
           uses: docker/build-push-action@v6.18.0
           with:
             push: true
-            tags: ${{ vars.IMAGE_NAME }}:${{ github.run_id }}
+            tags: ${{ vars.IMAGE_NAME }}:$IMAGE_TAG
             context: .
 
     k8s:
@@ -67,13 +70,13 @@
 
            cd argo-e-commerce
 
-           sed -i "s#image: ${{ vars.IMAGE_NAME }}:.*#image: ${{ vars.IMAGE_NAME }}:${{ github.run_id }}/g" deployment.yaml
+           sed -i "s/${{ vars.IMAGE_NAME }}:.*/${{ vars.IMAGE_NAME }}:$IMAGE_TAG/g" deployment.yaml
 
            cat deployment.yaml
 
            git add .
 
            git commit -m "Update deployment manifest via GitHub Action"
-           
+
            git push origin main 
       
