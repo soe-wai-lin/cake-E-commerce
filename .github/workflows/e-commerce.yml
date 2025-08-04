@@ -47,6 +47,11 @@
             push: true
             tags: ${{ vars.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             context: .
+            
+        - name: Store IMAGE_TAG
+          run: |
+            echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+            echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
 
     k8s:
       name: k8s-image-update
@@ -70,7 +75,7 @@
 
            cd argo-e-commerce
 
-           sed -i 's/${{ vars.IMAGE_NAME }}:.*/${{ vars.IMAGE_NAME }}:v1.1/g' deployment.yaml
+           sed -i 's/${{ vars.IMAGE_NAME }}:.*/${{ vars.IMAGE_NAME }}:${{ env.IMAGE_TAG }}/g' deployment.yaml
 
            cat deployment.yaml
 
