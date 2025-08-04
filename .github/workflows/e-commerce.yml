@@ -4,6 +4,8 @@
     push:
       branches:
         - main
+  env:
+    TARGET_REPO_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
 
   jobs:
     unit-testing:
@@ -42,6 +44,25 @@
           uses: docker/build-push-action@v6.18.0
           with:
             push: true
-            tags: soewailin/cake-e-commerce:v1.0.15
+            tags: soewailin/cake-e-commerce:v1.0.16
             context: .
+
+    k8s:
+      name: k8s-image-update
+      needs: docker
+      runs-on: ubuntu-lates
+      steps:
+        - name: checkout repo
+          uses: actions/checkout@v4.2.2
+
+        - name: Set up Git
+          run: |
+            git config  user.name "github-ubuntu"
+            git config  user.email "swl@gmail.com"
+
+        - name: Run manifest update script
+          run: |
+           chmod +x ./update-manifest.sh
+           ./update-manifest.sh
+
       
