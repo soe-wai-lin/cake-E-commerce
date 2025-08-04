@@ -69,7 +69,9 @@
            git clone https://soewailin:${TARGET_REPO_TOKEN}@github.com/soe-wai-lin/argo-e-commerce.git
 
            cd argo-e-commerce
-           sed -i 's/${{ vars.IMAGE_NAME }}:.*/${{ vars.IMAGE_NAME }}:${{ env.IMAGE_TAG }}/g' deployment.yaml
+
+           sed -i 's/${{ vars.IMAGE_NAME }}:.*/${{ vars.IMAGE_NAME }}:v1.1/g' deployment.yaml
+
            cat deployment.yaml
 
            git add .
