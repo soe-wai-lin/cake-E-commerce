@@ -45,7 +45,7 @@
           uses: docker/build-push-action@v6.18.0
           with:
             push: true
-            tags: $IMAGE_NAME:$GITHUB_SHA
+            tags: $IMAGE_NAME:${{ GITHUB_SHA }}
             context: .
 
     k8s:
@@ -71,7 +71,7 @@
           run: |
            git clone https://soewailin:${TARGET_REPO_TOKEN}@github.com/soe-wai-lin/argo-e-commerce.git
            cd argo-e-commerce
-           sed -i 's/$IMAGE_NAME:.*/$IMAGE_NAME:$GITHUB_SHA/g' deployment.yaml
+           sed -i 's/$IMAGE_NAME:.*/$IMAGE_NAME:${{ GITHUB_SHA }}/g' deployment.yaml
            cat deployment.yaml
            git add .
            git commit -m "Update deployment manifest via GitHub Action"
