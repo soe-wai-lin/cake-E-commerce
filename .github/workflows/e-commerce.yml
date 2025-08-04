@@ -5,7 +5,7 @@
       branches:
         - main
   env:
-    IMAGE_TAG: "v1.1"
+    IMAGE_TAG: "v1.2"
 
 
   jobs:
@@ -66,35 +66,35 @@
             severity: 'CRITICAL'
             
       
-    # k8s:
-    #   name: k8s-image-update
-    #   needs: docker
-    #   runs-on: ubuntu-latest
-    #   steps:
-    #     - name: checkout repo
-    #       uses: actions/checkout@v4.2.2 
+    k8s:
+      name: k8s-image-update
+      needs: docker
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout repo
+          uses: actions/checkout@v4.2.2 
 
-    #     - name: Set up Git
-    #       run: |
-    #         git config --global user.name "github-ubuntu"
-    #         git config --global user.email "swl@gmail.com"
+        - name: Set up Git
+          run: |
+            git config --global user.name "github-ubuntu"
+            git config --global user.email "swl@gmail.com"
 
-    #     - name: Run manifest update script
-    #       env:
-    #         TARGET_REPO_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
+        - name: Run manifest update script
+          env:
+            TARGET_REPO_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
 
-    #       run: |
-    #        git clone https://soewailin:${TARGET_REPO_TOKEN}@github.com/soe-wai-lin/argo-e-commerce.git
+          run: |
+           git clone https://soewailin:${TARGET_REPO_TOKEN}@github.com/soe-wai-lin/argo-e-commerce.git
 
-    #        cd argo-e-commerce
+           cd argo-e-commerce
 
-    #        sed -i 's/cake-e-commerce:.*/cake-e-commerce:v1.1/g' deployment.yaml
+           sed -i 's/cake-e-commerce:.*/cake-e-commerce:v1.2/g' deployment.yaml
 
-    #        cat deployment.yaml
+           cat deployment.yaml
 
-    #        git add .
+           git add .
 
-    #        git commit -m "Update deployment manifest via GitHub Action"
+           git commit -m "Update deployment manifest via GitHub Action"
 
-    #        git push origin main 
+           git push origin main 
       
