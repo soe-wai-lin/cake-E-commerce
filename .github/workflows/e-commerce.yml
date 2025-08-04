@@ -28,9 +28,6 @@
       name: docker-build
       needs: unit-testing
       runs-on: ubuntu-latest
-      env:
-        IMAGE_NAME: soewailin/cake-e-commerce
-        REPO_NAME: soe-wai-lin/argo-e-commerce
       steps:
         - name: checkout repo
           uses: actions/checkout@v4.2.2
@@ -45,19 +42,16 @@
           uses: docker/build-push-action@v6.18.0
           with:
             push: true
-            tags: $IMAGE_NAME:${{ github.run_id }}
+            tags: ${{ vars.IMAGE_NAME }}:${{ github.run_id }}
             context: .
 
     k8s:
       name: k8s-image-update
       needs: docker
       runs-on: ubuntu-latest
-      env:
-        IMAGE_NAME: soewailin/cake-e-commerce
-        REPO_NAME: soe-wai-lin/argo-e-commerce
       steps:
         - name: checkout repo
-          uses: actions/checkout@v4.2.2
+          uses: actions/checkout@v4.2.2 
 
         - name: Set up Git
           run: |
@@ -71,7 +65,7 @@
           run: |
            git clone https://soewailin:${TARGET_REPO_TOKEN}@github.com/soe-wai-lin/argo-e-commerce.git
            cd argo-e-commerce
-           sed -i 's/$IMAGE_NAME:.*/$IMAGE_NAME:${{ github.run_id }}/g' deployment.yaml
+           sed -i 's/${{ vars.IMAGE_NAME }}:.*/${{ vars.IMAGE_NAME }}:${{ github.run_id }}/g' deployment.yaml
            cat deployment.yaml
            git add .
            git commit -m "Update deployment manifest via GitHub Action"
