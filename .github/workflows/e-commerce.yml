@@ -45,7 +45,7 @@
           uses: docker/build-push-action@v6.18.0
           with:
             push: true
-            tags: ${{ vars.IMAGE_NAME }}:$IMAGE_TAG
+            tags: ${{ vars.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             context: .
 
     k8s:
@@ -70,7 +70,7 @@
 
            cd argo-e-commerce
 
-           sed -i "s/${{ vars.IMAGE_NAME }}:.*/${{ vars.IMAGE_NAME }}:$IMAGE_TAG/g" deployment.yaml
+           sed -i "s/${{ vars.IMAGE_NAME }}:.*/${{ vars.IMAGE_NAME }}:${{ env.IMAGE_TAG }}/g" deployment.yaml
 
            cat deployment.yaml
 
