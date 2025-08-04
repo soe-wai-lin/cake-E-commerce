@@ -50,7 +50,7 @@
     k8s:
       name: k8s-image-update
       needs: docker
-      runs-on: ubuntu-lates
+      runs-on: ubuntu-latest
       steps:
         - name: checkout repo
           uses: actions/checkout@v4.2.2
