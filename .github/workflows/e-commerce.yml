@@ -70,7 +70,7 @@
 
            cd argo-e-commerce
 
-           sed -i "s/${{ vars.IMAGE_NAME }}:.*/${{ vars.IMAGE_NAME }}:${{ env.IMAGE_TAG }}/g" deployment.yaml
+           sed -i \"s|${{ vars.IMAGE_NAME }}:.*/${{ vars.IMAGE_NAME }}:${{ env.IMAGE_TAG }}|g\" deployment.yaml
 
            cat deployment.yaml
 
