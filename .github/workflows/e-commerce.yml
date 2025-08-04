@@ -4,8 +4,6 @@
     push:
       branches:
         - main
-  env:
-    TARGET_REPO_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
 
   jobs:
     unit-testing:
@@ -61,6 +59,9 @@
             git config  user.email "swl@gmail.com"
 
         - name: Run manifest update script
+          env:
+            TARGET_REPO_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
+
           run: |
            chmod +x ./update-manifest.sh
            ./update-manifest.sh
