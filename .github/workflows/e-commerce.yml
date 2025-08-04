@@ -29,7 +29,7 @@
       needs: unit-testing
       runs-on: ubuntu-latest
       env:
-        IMAGE_NAME: cake-e-commerce
+        IMAGE_NAME: soewailin/cake-e-commerce
         REPO_NAME: soe-wai-lin/argo-e-commerce
       steps:
         - name: checkout repo
