@@ -55,8 +55,8 @@
 
         - name: Set up Git
           run: |
-            git config  user.name "github-ubuntu"
-            git config  user.email "swl@gmail.com"
+            git config --global user.name "github-ubuntu"
+            git config --global user.email "swl@gmail.com"
 
         - name: Run manifest update script
           env:
